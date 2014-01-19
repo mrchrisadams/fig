@@ -211,6 +211,8 @@ class Service(object):
         for service in self.links:
             for container in service.containers():
                 links[container.name] = container.name
+        for container in self.containers():
+            links[container.name] = container.name
         return links
 
     def _get_container_options(self, override_options, one_off=False):
