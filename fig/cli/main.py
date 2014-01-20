@@ -203,8 +203,12 @@ class TopLevelCommand(Command):
             -d    Detached mode: Run container in the background, print new container name
         """
         service = self.project.get_service(options['SERVICE'])
+
+        shell_arguments = [options['COMMAND']] + options['ARGS']
+        shell_string = ' '.join('"%s"' % s.replace('"', '\\"') for s in shell_arguments)
+
         container_options = {
-            'command': [options['COMMAND']] + options['ARGS'],
+            'command': ['sh', '-c', shell_string],
             'tty': not options['-d'],
             'stdin_open': not options['-d'],
         }
